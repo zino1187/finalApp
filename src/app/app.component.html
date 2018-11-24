@@ -7,20 +7,21 @@
   </div>
   <div class="list_area" id="box">
 
-    <ul class="list_style">
-      <li>이름</li>
-      <li>나이</li>
-      <li>직업</li>
+    <ul class="list_style" *ngFor="let pro of profiles" (click)="getDetail(pro.profile_id)">
+      <li>{{pro.name}}</li>
+      <li>{{pro.age}}</li>
+      <li>{{pro.job}}</li>
     </ul>
 
 
   </div>
   <div class="detail_area">
-    <input type="hidden"/>
-    <input type="text"/>
-    <input type="text"/>
-    <input type="text"/>
-    <input type="button" value="삭제"/>
-    <input type="button" value="수정"/>
+    <input type="hidden" value="{{p}}"/>
+    <input type="text" value="{{n}}"/>
+    <input type="text" value="{{a}}"/>
+    <input type="text" value="{{j}}"/>
+
+    <input type="button" value="삭제" (click)="del(p)"/>
+    <input type="button" value="수정" (click)="edit(p,n,a,j)"/>
   </div>
 </div>

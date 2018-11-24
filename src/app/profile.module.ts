@@ -8,6 +8,5 @@ export class Profile{
         public name:string,
         public age:number,
         public job:string
-    ){
-    }    
+    ){}    
 }

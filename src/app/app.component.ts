@@ -14,10 +14,19 @@ import { Profile } from './profile.module';
 })
 export class AppComponent {
   title = 'app';
-  profiles:Profile[]=new Array();
+  profiles:Profile[]=new Array(); //여러건을 받을 변수
+  profile:Profile;//한건을 보관할 변수
+  p:number;
+  n:string;
+  a:number;
+  j:string;
 
   //생성자에서 사용하고자 하는 모듈을 인수로 받는다
   constructor(private http:HttpClient){
+  }
+
+  ngOnInit(){
+    this.getList();
   }
   
   //등록요청 
@@ -66,6 +75,61 @@ export class AppComponent {
 
   }
 
+  //상세보기 요청
+  getDetail(pid):void{
+    this.http.get("/profile/detail?profile_id="+pid).subscribe(data=>{
+      var str=JSON.stringify(data);
+      var obj=JSON.parse(str);
+      console.log(obj);
+      this.p=obj.row[0];
+      this.n=obj.row[1];
+      this.a=obj.row[2];
+      this.j=obj.row[3];
 
+    /* 
+      this.profile = new Profile(
+        obj.row[0],
+        obj.row[1],
+        obj.row[2],
+        obj.row[3]
+      );
+    */      
+    });
+  console.log("profile은 ",this.profile);
+  }
 
+  del(pid):void{
+    this.http.get("/profile/del?profile_id="+pid).subscribe(data=>{
+      var str=JSON.stringify(data);
+      var obj=JSON.parse(str);
+
+      if(obj.result==0){
+        alert("삭제실패");
+      }else{
+        alert("삭제성공");
+        this.getList();
+      }
+    });
+  }
+
+  edit(_p, _n, _a, _j):void{
+    if(!confirm("삭제하시겠습니까?")){
+      return;
+    }
+    alert("수정할께요");
+    this.http.post("/profile/edit",{
+      profile_id:_p,
+      name:_n,
+      age:_a,
+      job:_j
+    }).subscribe(data=>{
+      var str=JSON.stringify(data);
+      var obj=JSON.parse(str);
+      if(obj.result==0){
+        alert("수정실패");
+      }else{
+        this.getList();
+      }
+    });
+  }
 }
