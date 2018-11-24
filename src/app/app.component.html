@@ -1,0 +1,26 @@
+<div class="wrapper">
+  <div class="input_area">
+    <input type="text" placeholder="이름 입력" #input_name/>
+    <input type="text" placeholder="나이 입력" #input_age/>
+    <input type="text" placeholder="직업 입력" #input_job/>
+    <input type="button" value="등록" (click)="regist(input_name.value , input_age.value ,input_job.value)"/>
+  </div>
+  <div class="list_area" id="box">
+
+    <ul class="list_style">
+      <li>이름</li>
+      <li>나이</li>
+      <li>직업</li>
+    </ul>
+
+
+  </div>
+  <div class="detail_area">
+    <input type="hidden"/>
+    <input type="text"/>
+    <input type="text"/>
+    <input type="text"/>
+    <input type="button" value="삭제"/>
+    <input type="button" value="수정"/>
+  </div>
+</div>
