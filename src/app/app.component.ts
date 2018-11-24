@@ -3,6 +3,9 @@ import { Component } from '@angular/core';
 //사용하고자 하는 클래스 가져오기
 import { HttpClient } from '@angular/common/http';
 
+//확장자 .ts 는 명시하지 않는다
+import { Profile } from './profile.module';
+
 
 @Component({
   selector: 'app-root',
@@ -11,6 +14,8 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AppComponent {
   title = 'app';
+  profiles:Profile[]=new Array();
+
   //생성자에서 사용하고자 하는 모듈을 인수로 받는다
   constructor(private http:HttpClient){
   }
@@ -33,8 +38,34 @@ export class AppComponent {
       var str=JSON.stringify(data);
       var obj=JSON.parse(str);//객체기 때문에 이 시점부터는 요소들
       //.쩜찍고 접근이 가능하다...
-      alert(obj.msg);
+      if(obj.result==1){
+        this.getList();
+      }
 
     });
   }
+
+  /* 목록 요청  */
+  getList():void{
+    this.http.get("/profile/list").subscribe(data=>{
+      var str=JSON.stringify(data); //object --> string
+      var obj=JSON.parse(str);//string --> json 객체
+      console.log("길이는 ",obj.rows.length);
+      console.log("받은 데이터는 ",obj.rows);
+
+      var len=obj.rows.length;
+      for(var i=0; i<len;i++){
+        this.profiles[i]=new Profile(
+            obj.rows[i][0],
+            obj.rows[i][1],
+            obj.rows[i][2],
+            obj.rows[i][3]);
+      }
+      console.log(this.profiles);
+    });
+
+  }
+
+
+
 }
